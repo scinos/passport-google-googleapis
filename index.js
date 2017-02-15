@@ -89,9 +89,17 @@ GoogleAPIsStrategy.prototype.authenticate = function(req, options) {
             if (arity == 6) {
               self._verify(req, accessToken, refreshToken, {}, profile,
                 verified);
-            } else { // arity == 5
+            } else if (arity == 5) {
               self._verify(req, accessToken, refreshToken, profile,
                 verified);
+            } else { // arity == 4
+              self._verify(req, {
+                accessToken: tokens.access_token,
+                tokenType: tokens.token_type,
+                idToken: tokens.id_token,
+                refreshToken: tokens.refresh_token || null,
+                expiryDate: tokens.expiry_date
+              }, profile, verified);
             }
           } else {
             if (arity == 5) {
